@@ -8,8 +8,9 @@ class GrammarResponse(BaseModel):
     explanation: str
 
 class MessagePart(BaseModel):
-    kind: Literal["text"] = "text"
+    kind: Literal["text", "data"]
     text: Optional[str] = None
+    data: Optional[List[Dict[str, Any]]] = None
 
 class A2AMessage(BaseModel):
     kind: Literal["message"] = "message"

@@ -43,19 +43,20 @@ class GrammarAgent:
         task_id = task_id or str(uuid4())
 
 
-        user_message = messages[-1] if messages else None
+        user_message = messages.parts
 
         if not user_message:
             raise ValueError("No message provided")
 
-        user_text = ""
-        for part in user_message.parts:
-            if part.kind == "text":
-                user_text = part.text.strip() if part.text else None
+        user_message = user_message[-1].data[-1]
 
-                if not user_text:
-                    raise ValueError("No text provided")
-                break
+        user_text = "" 
+        if user_message.kind == "text":
+            user_text = user_message.text.strip() if user_message.text else None
+
+            if not user_text:
+                raise ValueError("No text provided")
+
         try:
             response = await self.agent.run(user_prompt=user_text)
 
