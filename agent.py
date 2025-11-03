@@ -52,7 +52,7 @@ class GrammarAgent:
 
         user_text = "" 
         if user_message["kind"] == "text":
-            user_text = user_message.text.strip() if user_message.text else None
+            user_text = user_message["text"].strip() if user_message["text"] else None
 
             if not user_text:
                 raise ValueError("No text provided")
