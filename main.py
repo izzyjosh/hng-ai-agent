@@ -56,7 +56,7 @@ async def grammar_check(request: Request):
             task_id = rpc_request.params.taskId
 
         result = await grammar_agent.run(
-            messages=messages,
+            message=messages,
             context_id=context_id,
             task_id=task_id,
             config=config
