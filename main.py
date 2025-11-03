@@ -47,7 +47,7 @@ async def grammar_check(request: Request):
 
 
         if rpc_request.method == "message/send":
-            messages = [rpc_request.params.message]
+            messages = rpc_request.params.message
             config = rpc_request.params.configuration
 
         elif rpc_request.method == "execute":
