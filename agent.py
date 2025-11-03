@@ -65,10 +65,8 @@ class GrammarAgent:
                     parts=[MessagePart(kind="text", text=response.output.model_dump_json())],
                     taskId=task_id
                     )
-            history = []
-            history = history.append(message)
-            history = history.append(response_message)
-            
+            history = [message, response_message]
+             
             task_result = TaskResult(
                     id=task_id,
                     contextId=context_id,
