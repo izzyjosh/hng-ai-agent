@@ -56,8 +56,8 @@ class GrammarAgent:
             user_text = getattr(last_part, "text", "")
         elif hasattr(last_part, "data") and last_part.data:
             data_part = last_part.data[-1]
-            if hasattr(data_part, "kind") and data_part.kind == "text":
-                user_text = getattr(data_part, "text", "").strip()
+            if isinstance(data_part, dict) and data_part.get("kind") == "text":
+                user_text = data_part.get("text", "").strip()
         else:
             user_text = ""
 
