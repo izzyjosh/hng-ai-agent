@@ -51,7 +51,7 @@ class GrammarAgent:
         user_message = user_message[-1].data[-1]
 
         user_text = "" 
-        if user_message.kind == "text":
+        if user_message["kind"] == "text":
             user_text = user_message.text.strip() if user_message.text else None
 
             if not user_text:
