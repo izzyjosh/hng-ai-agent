@@ -37,13 +37,13 @@ class GrammarAgent:
                 system_prompt=self.SYSTEM_INSTRUCTIONS
                 )
 
-    async def run(self, messages: List[A2AMessage], context_id: Optional[str] = None, task_id: Optional[str] = None, config: Optional[MessageConfiguration] = None):
+    async def run(self, message: A2AMessage, context_id: Optional[str] = None, task_id: Optional[str] = None, config: Optional[MessageConfiguration] = None):
 
         context_id = context_id or str(uuid4())
         task_id = task_id or str(uuid4())
 
 
-        user_message = messages.parts
+        user_message = message.parts
 
         if not user_message:
             raise ValueError("No message provided")
@@ -65,7 +65,9 @@ class GrammarAgent:
                     parts=[MessagePart(kind="text", text=response.output.model_dump_json())],
                     taskId=task_id
                     )
-            history = messages + [response_message]
+            history = []
+            history = history.append(message)
+            history = history.append(response_message)
             
             task_result = TaskResult(
                     id=task_id,
