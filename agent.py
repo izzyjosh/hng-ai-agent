@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 from fastapi.exceptions import HTTPException
 
 # Module import
-from models import A2AMessage, GrammarResponse, MessageConfiguration, MessagePart, TaskResult, TaskStatus
+from models import A2AMessage, Artifact, GrammarResponse, MessageConfiguration, MessagePart, TaskResult, TaskStatus
 
 load_dotenv()
 
@@ -66,18 +66,24 @@ class GrammarAgent:
 
         try:
             response = await self.agent.run(user_prompt=user_text)
+            response_text = response.output.model_dump()
 
             response_message = A2AMessage(
                     role="agent",
                     parts=[MessagePart(kind="text", text=response.output.model_dump_json())],
                     taskId=task_id
                     )
+
+            artifacts = [
+                    Artifact(name="response", parts=[MessagePart(kind="text", text=f"{response_text["response"]} -> {response_text["explanation"]}")])
+                    ]
             history = [message, response_message]
              
             task_result = TaskResult(
                     id=task_id,
                     contextId=context_id,
                     status=TaskStatus(state="completed", message=response_message),
+                    artifacts=artifacts,
                     history=history
                     )
 
